@@ -11,10 +11,14 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 # Cargar el archivo CSV
-df = pd.read_csv('datos_limpios.csv')
+df = pd.read_csv('datos_Con_date_Seasons.csv')
 
 variable_respuesta = "Rented Bike Count"
-available_indicators = [col for col in df.columns if col not in [variable_respuesta, 'Date', "Seasons","Winter","Summer","Spring","Autumn"]]
+available_indicators = [col for col in df.columns if col not in [variable_respuesta, 'Date', "Seasons","Winter","Summer","Spring","Autumn","Dew point temperature(C)",
+                                                                 "Solar Radiation (MJ/m2)"]]
+
+df["Holiday"]=df["Holiday"].map({0:"No Holiday",1:"Holiday"})
+df["Functioning Day"]=df["Functioning Day"].map({0:"Yes",1:"No"})
 
 # Filtrar las columnas numéricas y categóricas
 numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns.tolist()
